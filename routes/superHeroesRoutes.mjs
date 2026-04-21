@@ -4,6 +4,9 @@
 
 
 import express from 'express';
+import { body,validationResult } from 'express-validator';
+//body:declara las reglas de validación sobre los campos del req. body. Devuelve un middleware.
+//validationResult: lee los errores que body()acumulóen la rquest y los epone.
 import {
     obtenerTodosLosSuperheroesController, crearSuperHeroeController,actualizarSuperHeroeController, 
     eliminarSuperHeroeporIdController,eliminarSuperHeroeporNombreController} 
@@ -17,9 +20,47 @@ const router = express.Router();
 // http://localhost:3000/api/heroes
 router.get('/heroes', obtenerTodosLosSuperheroesController);
 
-//POST- Crear un superheroe
+//POST- Crear un superheroe (sin validacion)
 //http://localhost:3000/api/heroes
-router.post('/heroes', crearSuperHeroeController);
+// router.post('/heroes', crearSuperHeroeController);
+
+//POST- Crear un superheroe (con validación)
+//http://localhost:3000/api/heroes
+router.post('/heroes', 
+    body("nombreSuperHeroe")
+    .trim() //validar que no tenga espacios en blanco
+    .notEmpty().withMessage("Nombre de superheroe es requerido")
+    .isLength({min:3, max:60}).withMessage("El nombre debe tener al menos 3 caracteres y no mas de 60 caracteres"),//isLenght permite validar longitud mínima y/o maxima
+
+    body("nombreReal")
+    .trim() //validar que no tenga espacios en blanco
+    .notEmpty().withMessage("Nombre Real del superheroe es requerido")
+    .isLength({min:3, max:60}).withMessage("El nombre debe tener al menos 3 caracteres y no mas de 60 caracteres"),//isLenght permite validar longitud mínima y/o maxima
+    
+    body('edad')
+    .trim() // Elimina espacios en blanco al inicio y final
+    .notEmpty().withMessage('El campo edad es requerido') // No esté vacío
+    .isNumeric().withMessage('Debe ser un valor numérico') // Es numérico
+    .isInt({ min: 1 }).withMessage('El valor mínimo es 1 y no se admiten negativos'),
+
+    // body("poderes")
+    // .notEmpty().withMessage("El campo poderes es requerido")
+    // .isArray({min:1}).withMessage("Debe tener al menos un poder"),
+    (req,res)=>{
+        const errors=validationResult(req);
+        if (!errors.isEmpty()){
+            console.log(error.array());
+            return res.status(400).json({errors:error.array()});
+        }
+        //si llegamos hasta aca todas las validaciones pasaron. Procesamos normalmente.
+        const{nombreSuperHeroe,nombreReal,edad}=req.body;
+        console.log("validación exitosa",req.body);
+        res.send(req.body);
+    },crearSuperHeroeController)
+
+
+    
+    //crearSuperHeroeController);
 
 //PUT- Actualizar un superheroe por id
 //http://localhost:3000/api/heroes/:id
