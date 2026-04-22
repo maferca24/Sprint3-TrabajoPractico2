@@ -47,7 +47,7 @@ router.delete('/heroes/nombre/:nombre', eliminarSuperHeroeporNombreController);
 //POST- Validación
 //http://localhost:3000/api/heroes/con-validacion
 router.post('/heroes/con-validacion', 
-    body("nombreSuperHeroe")
+    [body("nombreSuperHeroe")
     .trim() //validar que no tenga espacios en blanco
     .notEmpty().withMessage("Nombre de superheroe es requerido")
     .isLength({min:3, max:60}).withMessage("El nombre debe tener al menos 3 caracteres y no mas de 60 caracteres"),//isLenght permite validar longitud mínima y/o maxima
@@ -69,7 +69,7 @@ router.post('/heroes/con-validacion',
     body("poderes.*")
     .isString().withMessage("Cada elemento debe ser una cadena de texto")
     .trim()//elimina espacios en blanco
-    .isLength({min:3, max:60}).withMessage("cada elemento debe tener entre 3 y 6o caracteres"),
+    .isLength({min:3, max:60}).withMessage("cada elemento debe tener entre 3 y 6o caracteres")]
         (req,res)=>{
         const errors=validationResult(req);
         if (!errors.isEmpty()){
