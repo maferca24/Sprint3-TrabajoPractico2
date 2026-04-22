@@ -3,7 +3,9 @@
 //permitiendo que las solicitudes HTTP se manejen de forma estructurada y predecible
 
 import express from 'express';
-import { body, validationResult } from 'express-validator';
+import { validateSuperHeroe } from '../middlewares/middlewareSuperheroes.mjs';
+
+//import { body, validationResult } from 'express-validator';
 //body:declara las reglas de validación sobre los campos del req. body. Devuelve un middleware.
 //validationResult: lee los errores que body()acumulóen la rquest y los epone.
 import {
@@ -11,7 +13,6 @@ import {
     eliminarSuperHeroeporIdController, eliminarSuperHeroeporNombreController
 }
     from '../controllers/superheroesControllers.mjs';
-import { validateSuperHeroe } from '../middlewares/middlewareSuperheroes.mjs';
 
 const router = express.Router();
 
