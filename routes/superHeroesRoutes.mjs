@@ -24,9 +24,29 @@ router.get('/heroes', obtenerTodosLosSuperheroesController);
 //http://localhost:3000/api/heroes
 // router.post('/heroes', crearSuperHeroeController);
 
-//POST- Crear un superheroe (con validación)
+//POST- Crear un superheroe
 //http://localhost:3000/api/heroes
-router.post('/heroes', 
+router.post('/heroes', crearSuperHeroeController);
+
+//PUT- Actualizar un superheroe por id
+//http://localhost:3000/api/heroes/:id
+router.put('/heroes/:id', actualizarSuperHeroeController);
+
+/********
+ Requerimiento: Agregar un endpoint que al realizarle una peticion
+Borre un superheroe por ID en la base de datos, y nos devuelva el superheroe borrado
+*********/
+//DELETE- Elimnar un superheroe por id
+//http://localhost:3000/api/heroes/:id
+//http://localhost:3000/api/heroes/69e00b5f98572b8f21c7876d
+router.delete('/heroes/id/:id', eliminarSuperHeroeporIdController);
+
+//DELETE- Elimnar un superheroe por nombre
+router.delete('/heroes/nombre/:nombre', eliminarSuperHeroeporNombreController);
+
+//POST- Validación
+//http://localhost:3000/api/heroes/con-validacion
+router.post('/heroes/con-validacion', 
     body("nombreSuperHeroe")
     .trim() //validar que no tenga espacios en blanco
     .notEmpty().withMessage("Nombre de superheroe es requerido")
@@ -61,26 +81,5 @@ router.post('/heroes',
         console.log("validación exitosa",req.body);
         res.send(req.body);
     })
-
-
     
-    //crearSuperHeroeController);
-
-//PUT- Actualizar un superheroe por id
-//http://localhost:3000/api/heroes/:id
-router.put('/heroes/:id', actualizarSuperHeroeController);
-
-/********
- Requerimiento: Agregar un endpoint que al realizarle una peticion
-Borre un superheroe por ID en la base de datos, y nos devuelva el superheroe borrado
-*********/
-//DELETE- Elimnar un superheroe por id
-//http://localhost:3000/api/heroes/:id
-//http://localhost:3000/api/heroes/69e00b5f98572b8f21c7876d
-router.delete('/heroes/id/:id', eliminarSuperHeroeporIdController);
-
-//DELETE- Elimnar un superheroe por nombre
-router.delete('/heroes/nombre/:nombre', eliminarSuperHeroeporNombreController);
-
-
 export default router;
