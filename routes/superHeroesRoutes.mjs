@@ -28,11 +28,11 @@ router.get('/heroes', obtenerTodosLosSuperheroesController);
 
 //POST- Crear un superheroe
 //http://localhost:3000/api/heroes
-router.post('/heroes', crearSuperHeroeController);
+router.post('/heroes', validateSuperHeroe, crearSuperHeroeController);
 
 //PUT- Actualizar un superheroe por id
 //http://localhost:3000/api/heroes/:id
-router.put('/heroes/:id', actualizarSuperHeroeController);
+router.put('/heroes/:id', validateSuperHeroe, actualizarSuperHeroeController);
 
 /********
  Requerimiento: Agregar un endpoint que al realizarle una peticion
